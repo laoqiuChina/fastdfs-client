@@ -8,7 +8,7 @@ go版的fastdfs客户端
 #### Install
 
 ```
-go get github.com/wodog/fastdfs-client
+go get github.com/laoqiuChina/fastdfs-client
 ```
 
 #### Usage
@@ -16,7 +16,7 @@ go get github.com/wodog/fastdfs-client
 ```
 package main
 
-import "github.com/wodog/fastdfs-client"
+import "github.com/laoqiuChina/fastdfs-client"
 
 func main() {
   client := fstdfs.New()
@@ -24,7 +24,7 @@ func main() {
 
   // upload file
   file, _ := os.Open(fileName)
-  fileId := client.Upload(file)
+  fileId := client.Upload(file,"jpg")
 
   // download file
   client.Download(fileId, os.Stdout)
