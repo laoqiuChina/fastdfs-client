@@ -18,7 +18,7 @@ type storage struct {
 	index byte
 }
 
-func (s *storage) upload(file io.Reader) (string, error) {
+func (s *storage) upload(file io.Reader,ext string) (string, error) {
 	b, err := ioutil.ReadAll(file)
 	if err != nil {
 		return "", err
@@ -29,11 +29,13 @@ func (s *storage) upload(file io.Reader) (string, error) {
 		return "", err
 	}
 	defer conn.Close()
-
+	extbyte := []byte(ext)
+	exttmp :=make([]byte, 6)
+	copy(exttmp, extbyte)
 	buf := &bytes.Buffer{}
 	buf.WriteByte(s.index)
 	buf.Write(lengthByte(uint64(len(b))))
-	buf.Write(make([]byte, 6))
+	buf.Write(exttmp)
 	buf.Write(b)
 	h := header{
 		uint64(buf.Len()),

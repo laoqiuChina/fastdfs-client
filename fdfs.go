@@ -46,7 +46,7 @@ func (c *Client) AddTracker(trackerAddr string) error {
 	return nil
 }
 
-func (c *Client) Upload(file io.Reader) (string, error) {
+func (c *Client) Upload(file io.Reader,ext string) (string, error) {
 	tracker, err := c.getTracker()
 	if err != nil {
 		return "", err
@@ -55,7 +55,7 @@ func (c *Client) Upload(file io.Reader) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	fileID, err := storage.upload(file)
+	fileID, err := storage.upload(file,ext)
 	if err != nil {
 		return "", err
 	}
