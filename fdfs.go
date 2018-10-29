@@ -46,20 +46,20 @@ func (c *Client) AddTracker(trackerAddr string) error {
 	return nil
 }
 
-func (c *Client) Upload(file io.Reader,ext string) (string, error) {
+func (c *Client) Upload(file io.Reader, ext string) (string, string, error) {
 	tracker, err := c.getTracker()
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 	storage, err := tracker.getUploadStorage()
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
-	fileID, err := storage.upload(file,ext)
+	fileID, group, err := storage.upload(file, ext)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
-	return fileID, nil
+	return fileID, group, nil
 }
 
 func (c *Client) Download(fileID string, w io.Writer) error {

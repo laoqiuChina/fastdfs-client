@@ -3,13 +3,15 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:a51c931e411268667ab4e11bc80e4fa771e71a46a936851ffbd3a166b2b92d38"
   name = "github.com/wodog/pool"
   packages = ["."]
+  pruneopts = "UT"
   revision = "6ba9ade20bd93593545ff3619c13a1de575fb7f0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "69c76ba8c93750f608b6fa624f9e8eca27d87dfaf54ff54e2289e0ccd15958bc"
+  input-imports = ["github.com/wodog/pool"]
   solver-name = "gps-cdcl"
   solver-version = 1

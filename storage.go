@@ -18,19 +18,19 @@ type storage struct {
 	index byte
 }
 
-func (s *storage) upload(file io.Reader,ext string) (string, error) {
+func (s *storage) upload(file io.Reader, ext string) (string, string, error) {
 	b, err := ioutil.ReadAll(file)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%s", s.host, s.port))
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 	defer conn.Close()
 	extbyte := []byte(ext)
-	exttmp :=make([]byte, 6)
+	exttmp := make([]byte, 6)
 	copy(exttmp, extbyte)
 	buf := &bytes.Buffer{}
 	buf.WriteByte(s.index)
@@ -45,16 +45,16 @@ func (s *storage) upload(file io.Reader,ext string) (string, error) {
 	p := newProtocol(h, conn)
 	err = p.request(buf.Bytes())
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 	b, err = p.body()
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	group := clearZero(string(b[:16]))
 	path := clearZero(string(b[16:]))
-	return group + "/" + path, nil
+	return group + "/" + path, group, nil
 }
 
 func (s *storage) download(fileID string, w io.Writer) error {
